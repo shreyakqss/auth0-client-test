@@ -15,14 +15,18 @@ const LogoutButton = () => {
 };
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading,getAccessTokenSilently } = useAuth0();
-  const [token,setToken] = useState('N/A'); 
+  const { user, isAuthenticated, isLoading,getAccessTokenSilently,getIdTokenClaims } = useAuth0();
+  const [accesstoken,setAccessToken] = useState('N/A'); 
+  const [idtoken,setIdToken] = useState('N/A'); 
   if (isLoading) {
     return <div>Loading ...</div>;
   }
 
   getAccessTokenSilently().then((token) => {
-    setToken(token)
+    setAccessToken(token)
+    getIdTokenClaims().then((claims) => {
+      setIdToken(claims.__raw)
+    })
   })
 
   return (
@@ -31,8 +35,11 @@ const Profile = () => {
         <img src={user.picture} alt={user.name} />
         <h2>{user.name}</h2>
         <p>{user.email}</p>
-        <p>Token (JWT): 
-          <div>{token}</div>
+        <p>ID Token (JWT): 
+          <div className='tokendiv'>{idtoken}</div>
+        </p>
+        <p>Access Token (JWT): 
+          <div className='tokendiv'>{accesstoken}</div>
         </p>
         <p><LogoutButton /></p>
       </div>

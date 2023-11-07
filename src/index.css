@@ -67,3 +67,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.tokendiv{
+  background-color: rgb(226, 225, 225);
+  word-break: break-all;
+}
